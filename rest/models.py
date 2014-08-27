@@ -11,7 +11,7 @@ fs = FileSystemStorage(location=settings.MEDIA_ROOT)
 
 class Artist(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False)
-    birthdate = models.DateTimeField()
+    birthdate = models.DateTimeField(blank=True, null=True)
     text = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -31,7 +31,7 @@ def upload_image(instance=None, filename=None):
 class Strip(models.Model):
     title = models.CharField(max_length=100, blank=False, null=False)
     artist = models.ForeignKey(Artist, related_name='strips')
-    created = models.DateTimeField()
+    created = models.DateTimeField(blank=True, null=True)
     address = models.CharField(max_length=100, blank=True, null=True)
     lat = models.FloatField(blank=True, null=True)
     lng = models.FloatField(blank=True, null=True)
