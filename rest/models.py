@@ -10,7 +10,7 @@ from django.conf import settings
 fs = FileSystemStorage(location=settings.MEDIA_ROOT)
 
 class Artist(models.Model):
-    name = models.CharField(max_length=100, blank=False, null=False)
+    name = models.CharField(max_length=100, unique=True, blank=False, null=False)
     birthdate = models.DateTimeField(blank=True, null=True)
     text = models.TextField(blank=True, null=True)
 
@@ -29,7 +29,7 @@ def upload_image(instance=None, filename=None):
     return filename
 
 class Strip(models.Model):
-    title = models.CharField(max_length=100, blank=False, null=False)
+    title = models.CharField(max_length=100, unique=True, blank=False, null=False)
     artist = models.ForeignKey(Artist, related_name='strips')
     created = models.DateTimeField(blank=True, null=True)
     address = models.CharField(max_length=100, blank=True, null=True)

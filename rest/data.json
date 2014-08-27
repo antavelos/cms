@@ -1,9 +1,4 @@
-
-var Conf = (function(self) {
-	
-	"use strict";
-
-	self.stripData =  [
+[
 	{
 	  "id": 1, 
 	  "title":"TinTin in America",
@@ -408,7 +403,5 @@ var Conf = (function(self) {
 	  "img":"img/stripes/marsupilami.jpg",
 	  "lat": 50.8907142,
 	  "lng": 4.337164400000006
-	}];
-
- 	return self;
-}(Conf || {}));
+	}
+]
