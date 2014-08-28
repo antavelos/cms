@@ -18,10 +18,11 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class ArtistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artist
-        fields = ('name', 'birthdate')
+        fields = ('id', 'name', 'birthdate', 'strips')
 
 
 class StripSerializer(serializers.ModelSerializer):
+    artist = ArtistSerializer()
     class Meta:
         model = Strip
-        fields = ('title', 'artist', 'created', 'address', 'lat', 'lng')
+        fields = ('id', 'title', 'artist', 'created', 'address', 'lat', 'lng')

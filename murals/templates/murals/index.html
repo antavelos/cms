@@ -60,6 +60,22 @@
                 </div>
             </div>
             <div class="row portfolio-stripes">
+                {% for strip in strips %}
+                    <div class="col-md-4 col-sm-6 portfolio-item">
+                        <a href="#portfolioModal{{ strip.id }}" data-toggle="modal" class="portfolio-link">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content">
+                                <i class="fa fa-plus fa-3x"></i>
+                            </div>
+                        </div>
+                        <img class="img-responsive" src="{% static 'img/portfolio/roundicons.png' %}"></a>
+                        <div class="portfolio-caption">
+                            <h4>{{ strip.title }}</h4>
+                            <p>by {{ strip.artist.name }}</p>
+                            <a href="#about" class="page-scroll strip-marker" data-id="{{ strip.id }}" title="See the mural on the map"><span class="glyphicon glyphicon-map-marker"></span></a>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </section>
@@ -135,24 +151,14 @@
     <footer>
         <div class="container">
             <div class="row">
-                <div class="col-md-4">
-                    <span class="copyright">Copyright &copy; Your Website 2014</span>
+                <div class="col-md-6">
+                    <span class="copyright">Copyright &copy; Brussels Comic Strip Murals 2014</span>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <ul class="list-inline social-buttons">
                         <li><a href="#"><i class="fa fa-twitter"></i></a>
                         </li>
-                        <li><a href="#"><i class="fa fa-facebook"></i></a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-linkedin"></i></a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <ul class="list-inline quicklinks">
-                        <li><a href="#">Privacy Policy</a>
-                        </li>
-                        <li><a href="#">Terms of Use</a>
+                        <li><a href="#"><i class="fa fa-flickr"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -160,6 +166,31 @@
         </div>
     </footer>
 
-
+{% for strip in strips %}
+    <div class="portfolio-modal modal fade" id="portfolioModal{{ strip.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <div class="close-modal" data-dismiss="modal">
+                <div class="lr">
+                    <div class="rl">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2">
+                        <div class="modal-body">
+                            <!-- Project Details Go Here -->
+                            <h2>{{ strip.title }}</h2>
+                            <p class="item-intro text-muted">by {{ strip.artist.name }}</p>
+                            <img class="img-responsive img-centered" src="{% static 'img/portfolio/golden-preview.png' %}" alt="">
+                            <p>Some more info about the strip and the artist</p>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
 
 {% endblock %}

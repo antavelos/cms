@@ -10,7 +10,9 @@ from rest_framework import status
 
 # ViewSets define the view behavior.
 class ArtistViewSet(viewsets.ModelViewSet):
-    model = Artist
+    queryset = Artist.objects.all()
+    serializer_class = ArtistSerializer
 
 class StripViewSet(viewsets.ModelViewSet):
-    model = Strip
+    queryset = Strip.objects.all()
+    serializer_class = StripSerializer
