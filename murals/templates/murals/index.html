@@ -27,7 +27,7 @@
                         <a class="page-scroll" href="#portfolio">Murals</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#about">Map</a>
+                        <a class="page-scroll" id="map-link" href="#about">Map</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#contact">Contact</a>
@@ -56,7 +56,7 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <h2 class="section-heading">Murals</h2>
-                    <h3 class="section-subheading text-muted">Check out the comic strip murals and learn more about them</h3>
+                    <h3 class="section-subheading text-muted">Click on the comic strip murals and learn more about them</h3>
                 </div>
             </div>
             <div class="row portfolio-stripes">
@@ -84,15 +84,24 @@
     <section id="about">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12 text-center">
+                <div class="col-lg-2 text-center">
+                </div>
+                <div class="col-lg-8 text-center">
                     <h2 class="section-heading">Map</h2>
                     <h3 class="section-subheading text-muted">Locate the comic walls in the Brussels map</h3>
+                </div>
+                <div class="col-lg-2 text-center">
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                <div id="map-canvas">
-                    
+                <div id="map-area">
+                    <div class="map-switcher">
+                        <span>Show markers </span>
+                        <input type="checkbox" name="map-switcher" checked>
+                    </div>
+                    <div id="map-canvas">
+                    </div>
                 </div>
                 </div>
             </div>

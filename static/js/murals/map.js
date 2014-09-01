@@ -7,12 +7,8 @@ var Map = (function(self){
 	self.brusselsLng = 4.35171;
 
 	self.showMarker = function(id) {
-		self.markers.forEach(function(m) {
-			m.setVisible(false);
-		});
-		self.infowindows.forEach(function(i) {
-			i.close();
-		});
+		self.hideAllMarkers();
+
 		var marker = self.markers[id-1],
 			infowindow = self.infowindows[id-1];
 		marker.setVisible(true);
@@ -20,9 +16,30 @@ var Map = (function(self){
 		infowindow.open(self.map, marker);
 	};
 
+	self.showAllMarkers = function() {
+		self.markers.forEach(function(m) {
+			m.setVisible(true);
+		});	
+		self.closeAllInfoWindows();
+		self.setCoords();
+	};
+
+	self.hideAllMarkers = function() {
+		self.markers.forEach(function(m) {
+			m.setVisible(false);
+		});	
+		self.closeAllInfoWindows();
+	};
+
+	self.closeAllInfoWindows = function() {
+		self.infowindows.forEach(function(i) {
+			i.close();
+		});
+	};
+
 	self.setCoords = function(lat, lng) {
 		if (lat) {
-	        // self.map.setCenter(new google.maps.LatLng(lat, lng));
+	        self.map.setCenter(new google.maps.LatLng(lat, lng));
 		}
 		else {
 	        self.map.setCenter(new google.maps.LatLng(self.brusselsLat, self.brusselsLng));
@@ -47,10 +64,11 @@ var Map = (function(self){
 	        .done(function(strips) {
 
 	        	strips.forEach(function(strip) {
-					var contentString = '<div><a class="" href="#portfolioModal' + strip.id + '" data-toggle="modal">';
+					var contentString = '<div><a style="color: black;" href="#portfolioModal' + strip.id + '" data-toggle="modal">';
 					contentString += '<h4>' + strip.title + '</h4><p> by ' + strip.artist.name + '</p></a>';
 					contentString += '<a class="portfolio-link" href="#portfolioModal' + strip.id + '" data-toggle="modal">';
 					contentString += '<img style="width:200px; height:130px;" src="static/img/portfolio/roundicons.png"></img></a></div>';
+					contentString += '<span>@' + strip.address + '</span>';
 
 					var infowindow = new google.maps.InfoWindow({
 					    content: contentString
