@@ -14,7 +14,7 @@ var Map = (function(self){
 			i.close();
 		});
 		var marker = self.markers[id-1],
-			infowindow = self.infowindows[id-1]
+			infowindow = self.infowindows[id-1];
 		marker.setVisible(true);
 		self.setCoords(marker.getPosition().lat(), marker.getPosition().lng());
 		infowindow.open(self.map, marker);
@@ -34,7 +34,8 @@ var Map = (function(self){
         function initialize() {
             var mapOptions = {
             	center: new google.maps.LatLng(self.brusselsLat, self.brusselsLng),
-            	zoom: 13
+            	zoom: 13,
+            	scrollwheel: false
         	};
 	        self.map = new google.maps.Map(document.getElementById("map-canvas"),
 	            mapOptions);
@@ -46,10 +47,10 @@ var Map = (function(self){
 	        .done(function(strips) {
 
 	        	strips.forEach(function(strip) {
-					var contentString = '<div><a class="portfolio-link" href="#portfolioModal' + strip.id + '" data-toggle="modal">';
-					contentString += '<h3>' + strip.title + '</h3><p> by ' + strip.artist.name + '</p></a>';
+					var contentString = '<div><a class="" href="#portfolioModal' + strip.id + '" data-toggle="modal">';
+					contentString += '<h4>' + strip.title + '</h4><p> by ' + strip.artist.name + '</p></a>';
 					contentString += '<a class="portfolio-link" href="#portfolioModal' + strip.id + '" data-toggle="modal">';
-					contentString += '<img style="width:290px; height:200px;" src="static/img/portfolio/roundicons.png"></img></a></div>';
+					contentString += '<img style="width:200px; height:130px;" src="static/img/portfolio/roundicons.png"></img></a></div>';
 
 					var infowindow = new google.maps.InfoWindow({
 					    content: contentString
@@ -60,8 +61,8 @@ var Map = (function(self){
 					var marker = new google.maps.Marker({
 					    position: myLatlng,
 					    map: self.map,
-					    title: strip.title,
-					    visible: false
+					    title: strip.title
+					    // visible: false
 					});
 					google.maps.event.addListener(marker, 'click', function() {
 					    infowindow.open(self.map, marker);
