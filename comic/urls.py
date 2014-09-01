@@ -23,7 +23,7 @@ router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'groups', GroupViewSet)
 router.register(r'artists', views.ArtistViewSet)
-router.register(r'strips', views.StripViewSet)
+# router.register(r'strips', views.StripList)
 
 
 # Wire up our API using automatic URL routing.
@@ -33,8 +33,9 @@ urlpatterns = patterns('',
     url(r'^', include('rest.urls')),
     url(r'^', include('murals.urls')),
     url(r'^api/', include(router.urls)),
+    url(r'^api/strips/', views.StripList.as_view()),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-    	'document_root': settings.MEDIA_ROOT
+        'document_root': settings.MEDIA_ROOT
     })
 )
