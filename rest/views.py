@@ -26,7 +26,7 @@ class StripList(generics.ListAPIView):
 
     def get_queryset(self):
         queryset = Strip.objects.all()
-        term = self.request.QUERY_PARAMS.get('search-stripe', None)
+        term = self.request.QUERY_PARAMS.get('search-strip', None)
         if term is not None:
             queryset_by_title = queryset.filter(title__icontains=term)
             queryset_by_artist = queryset.filter(artist__name__icontains=term)

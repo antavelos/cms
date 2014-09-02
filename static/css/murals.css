@@ -33,3 +33,15 @@
 	font-size: 0.9em;
 	padding-right: 3px;
 }
+
+.search-filter {
+	display: inline;
+	background-color: #fed136;
+	color: black;
+	border-radius: 5px;
+	padding: 3px;bottom: 10px;
+	right: 15px;
+	position: relative;
+	float: right;
+	cursor: pointer;
+}

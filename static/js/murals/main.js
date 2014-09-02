@@ -3,6 +3,7 @@
 
 	"use strict";
 
+	Murals.init();
 	Map.init();
 	$("[name='map-switcher']").bootstrapSwitch({
 		size: 'small',
@@ -22,5 +23,14 @@
 		Map.showMarker(parseInt(id));
 	});
 
+	$(".search-filter").find(".glyphicon").on('mouseover', function() {
+		$(this).removeClass('glyphicon-remove');
+		$(this).addClass('glyphicon-remove-sign');
+	});
+
+	$(".search-filter").find(".glyphicon").on('mouseout', function() {
+		$(this).removeClass('glyphicon-remove-sign');
+		$(this).addClass('glyphicon-remove');
+	});
 
 }(window.jQuery, window, document));

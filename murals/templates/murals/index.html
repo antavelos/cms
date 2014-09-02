@@ -27,21 +27,21 @@
                         <a class="page-scroll" href="#portfolio">Murals</a>
                     </li>
                     <li>
-                        <a class="page-scroll" id="map-link" href="#about">Map</a>
+                        <a class="page-scroll" id="map-link" href="#map">Map</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#contact">Contact</a>
                     </li>
                 </ul>
                 <div class="col-sm-3 col-md-3 pull-right">
-                    <form class="navbar-form" role="search">
+                    <div class="navbar-form search-strip" role="search">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search" name="search-stripe" id="search-stripe">
+                            <input type="text" class="form-control" placeholder="Search" name="search-strip">
                             <div class="input-group-btn">
-                                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                <a href="#portfolio" class="btn btn-default page-scroll" type="submit"><i class="glyphicon glyphicon-search"></i></a>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
             <!-- /.navbar-collapse -->
@@ -68,11 +68,14 @@
                     <h2 class="section-heading">Murals</h2>
                     <h3 class="section-subheading text-muted">Click on the comic strip murals and learn more about them</h3>
                 </div>
+                <div  class="search-filter">
+                <span><span class="glyphicon glyphicon-remove"></span> tin</span>
+                </div>
             </div>
-            <div class="row portfolio-stripes">
+            <div class="row portfolio-strip">
                 {% for strip in strips %}
                     <div class="col-md-4 col-sm-6 portfolio-item">
-                        <a href="#portfolioModal{{ strip.id }}" data-toggle="modal" class="portfolio-link">
+                        <a href="#portfolioModal{{ strip.id }}" data-id="{{ strip.id }}" data-toggle="modal" class="portfolio-link">
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content">
                                 <i class="fa fa-plus fa-3x"></i>
@@ -82,7 +85,7 @@
                         <div class="portfolio-caption">
                             <h4>{{ strip.title }}</h4>
                             <p>by {{ strip.artist.name }}</p>
-                            <a href="#about" class="page-scroll strip-marker" data-id="{{ strip.id }}" title="See the mural on the map"><span class="glyphicon glyphicon-map-marker"></span></a>
+                            <a href="#map" class="page-scroll strip-marker" title="See the mural on the map"><span class="glyphicon glyphicon-map-marker"></span></a>
                         </div>
                     </div>
                 {% endfor %}
@@ -91,7 +94,7 @@
     </section>
 
     <!-- About Section -->
-    <section id="about">
+    <section id="map">
         <div class="container">
             <div class="row">
                 <div class="col-lg-2 text-center">
