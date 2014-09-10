@@ -34,3 +34,19 @@ class StripList(generics.ListAPIView):
 
         return queryset
 
+
+class StripDetail(APIView):
+    """
+    Retrieve, update or delete a snippet instance.
+    """
+    def get_object(self, pk):
+        try:
+            return Strip.objects.get(pk=pk)
+        except Strip.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        strip = self.get_object(pk)
+        serializer = StripSerializer(strip)
+        
+        return Response(serializer.data)
