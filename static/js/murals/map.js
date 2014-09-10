@@ -1,40 +1,40 @@
 
 var Map = (function(self){
 	self.map = null;
-	self.markers = [];
-	self.infowindows = [];
+	self.markers = {};
+	self.infowindows = {};
 	self.brusselsLat = 50.86674;
 	self.brusselsLng = 4.35171;
 
 	self.showMarker = function(id) {
 		self.hideAllMarkers();
 
-		var marker = self.markers[id-1],
-			infowindow = self.infowindows[id-1];
+		var marker = self.markers[id],
+			infowindow = self.infowindows[id];
 		marker.setVisible(true);
 		self.setCoords(marker.getPosition().lat(), marker.getPosition().lng());
 		infowindow.open(self.map, marker);
 	};
 
 	self.showAllMarkers = function() {
-		self.markers.forEach(function(m) {
-			m.setVisible(true);
-		});	
+		for(key in self.markers) {
+			self.markers[key].setVisible(true);	
+		}
 		self.closeAllInfoWindows();
 		self.setCoords();
 	};
 
 	self.hideAllMarkers = function() {
-		self.markers.forEach(function(m) {
-			m.setVisible(false);
-		});	
+		for(key in self.markers) {
+			self.markers[key].setVisible(false);	
+		}
 		self.closeAllInfoWindows();
 	};
 
-	self.closeAllInfoWindows = function() {
-		self.infowindows.forEach(function(i) {
-			i.close();
-		});
+	self.closeAllInfoWindows = function() {		
+		for(key in self.infowindows) {
+			self.infowindows[key].close();	
+		}
 	};
 
 	self.setCoords = function(lat, lng) {
@@ -86,8 +86,8 @@ var Map = (function(self){
 					    infowindow.open(self.map, marker);
 					});
 
-					self.markers.push(marker);
-					self.infowindows.push(infowindow);
+					self.markers[strip.id] = marker;
+					self.infowindows[strip.id] = infowindow;
 
 	        	});
 	        });
