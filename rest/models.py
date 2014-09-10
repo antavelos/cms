@@ -21,10 +21,10 @@ class Artist(models.Model):
         return self.name
 
 def upload_image(instance=None, filename=None):
-    ext = '.png'
-    if filename is not None:
-        _, ext = os.path.splitext(filename)
-    filename = '%s%s' % (uuid.uuid4(), ext)
+    # ext = '.png'
+    # if filename is not None:
+    #     _, ext = os.path.splitext(filename)
+    # filename = '%s%s' % (uuid.uuid4(), ext)
 
     return filename
 

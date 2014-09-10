@@ -67,7 +67,7 @@ var Map = (function(self){
 					var contentString = '<div><a style="color: black;" href="#portfolioModal' + strip.id + '" data-toggle="modal">';
 					contentString += '<h4>' + strip.title + '</h4><p> by ' + strip.artist.name + '</p></a>';
 					contentString += '<a class="portfolio-link" href="#portfolioModal' + strip.id + '" data-toggle="modal">';
-					contentString += '<img style="width:200px; height:130px;" src="static/img/portfolio/roundicons.png"></img></a></div>';
+					contentString += '<img style="width:200px; height:130px;" src="' + DJANGO_MEDIA_URL + strip.image_small + '"></img></a></div>';
 					contentString += '<span>@' + strip.address + '</span>';
 
 					var infowindow = new google.maps.InfoWindow({

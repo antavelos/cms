@@ -68,6 +68,9 @@
     <script src="{% static 'js/murals/conf.js' %}" type="text/javascript"></script>
     <script src="{% static 'js/murals/main.js' %}" type="text/javascript"></script>
 
+    <script type="text/javascript">
+        DJANGO_MEDIA_URL = '{{ MEDIA_URL }}';
+    </script>
 </body>
 
 </html>

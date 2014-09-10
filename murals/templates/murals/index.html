@@ -81,11 +81,15 @@
                                 <i class="fa fa-plus fa-3x"></i>
                             </div>
                         </div>
-                        <img class="img-responsive" src="{% static 'img/portfolio/roundicons.png' %}"></a>
+                        {% if strip.image_small %}
+                            <img class="img-responsive" src="{{ strip.image_small.url }}"></a>
+                        {% else %}
+                            <img class="img-responsive" src="{% static 'img/portfolio/golden.png' %}"></a>
+                        {% endif %}
                         <div class="portfolio-caption">
                             <h4>{{ strip.title }}</h4>
                             <p>by {{ strip.artist.name }}</p>
-                            <a href="#map" class="page-scroll strip-marker" title="See the mural on the map"><span class="glyphicon glyphicon-map-marker"></span></a>
+                            <a href="#map" class="page-scroll strip-marker" title="See the mural on the map" data-id="{{ strip.id }}" ><span class="glyphicon glyphicon-map-marker"></span></a>
                         </div>
                     </div>
                 {% endfor %}
@@ -204,7 +208,11 @@
                             <!-- Project Details Go Here -->
                             <h2>{{ strip.title }}</h2>
                             <p class="item-intro text-muted">by {{ strip.artist.name }}</p>
-                            <img class="img-responsive img-centered" src="{% static 'img/portfolio/golden-preview.png' %}" alt="">
+                            {% if strip.image_big %}
+                                <img class="img-responsive img-centered" src="{{ strip.image_big.url }}" alt="">
+                            {% else %}
+                                <img class="img-responsive img-centered" src="{% static 'img/portfolio/golden-preview.png' %}" alt="">
+                            {% endif %}
                             <p>Some more info about the strip and the artist</p>
                             <button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                         </div>

@@ -25,4 +25,4 @@ class StripSerializer(serializers.ModelSerializer):
     artist = ArtistSerializer()
     class Meta:
         model = Strip
-        fields = ('id', 'title', 'artist', 'created', 'address', 'lat', 'lng')
+        fields = ('id', 'title', 'artist', 'created', 'address', 'lat', 'lng', 'image_big', 'image_small')
