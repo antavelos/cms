@@ -58,15 +58,15 @@ var Map = (function(self){
 	            mapOptions);
 			
 	        $.ajax({
-	        	url: 'api/strips',
+	        	url: 'api/strips/',
 	        	dataType: 'json'
 	        })
 	        .done(function(strips) {
 
 	        	strips.forEach(function(strip) {
-					var contentString = '<div><a style="color: black;" href="#portfolioModal' + strip.id + '" data-toggle="modal">';
+					var contentString = '<div><a style="color: black;" href="#strip-modal" data-toggle="modal">';
 					contentString += '<h4>' + strip.title + '</h4><p> by ' + strip.artist.name + '</p></a>';
-					contentString += '<a class="portfolio-link" href="#portfolioModal' + strip.id + '" data-toggle="modal">';
+					contentString += '<a class="portfolio-link" href="#strip-modal" data-toggle="modal">';
 					contentString += '<img style="width:200px; height:130px;" src="' + DJANGO_MEDIA_URL + strip.image_small + '"></img></a></div>';
 					contentString += '<span>@' + strip.address + '</span>';
 

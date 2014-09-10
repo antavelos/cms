@@ -16,6 +16,7 @@ var Murals = (function(self) {
 	self.Strip = function(el) {
 		this.element = el;
 		this.marker = el.find('.portfolio-caption').find('a');
+		this.image = el.find('.portfolio-hover');
 		this.id = parseInt(el.find('a').attr('data-id'));
 	};
 
@@ -27,7 +28,7 @@ var Murals = (function(self) {
 			onClick: function(callback) {
 				var that = this;
 
-				this.element.on('click', function() {
+				this.image.on('click', function() {
 					callback.call(this, that.id);
 				});
 			},
@@ -139,9 +140,127 @@ var Murals = (function(self) {
 
 	})();
 
-	//-------------------------------------------------------
-	self.stripList = null;
 
+	self.Map = function() {
+		this.map = null;
+		this.markers = {};
+		this.infowindows = {};
+		this.brusselsLat = 50.86674;
+		this.brusselsLng = 4.35171;
+	}
+
+	self.Map.prototype = (function() {
+
+		return {
+
+			showMarker: function(id) {
+				this.hideAllMarkers();
+
+				var marker = this.markers[id],
+					infowindow = this.infowindows[id];
+				marker.setVisible(true);
+				this.setCoords(marker.getPosition().lat(), marker.getPosition().lng());
+				infowindow.open(this.map, marker);
+			},
+
+			showAllMarkers: function() {
+				for(var key in this.markers) {
+					this.markers[key].setVisible(true);	
+				}
+				this.closeAllInfoWindows();
+				this.setCoords();
+			},
+
+			hideAllMarkers: function() {
+				for(var key in this.markers) {
+					this.markers[key].setVisible(false);	
+				}
+				this.closeAllInfoWindows();
+			},
+
+			closeAllInfoWindows: function() {		
+				for(var key in this.infowindows) {
+					this.infowindows[key].close();	
+				}
+			},
+
+			setCoords: function(lat, lng) {
+				if (lat) {
+			        this.map.setCenter(new google.maps.LatLng(lat, lng));
+				}
+				else {
+			        this.map.setCenter(new google.maps.LatLng(this.brusselsLat, this.brusselsLng));
+				}
+			},
+
+			_drawInfoBox: function(strip) {
+				var contentString = '<div class="strip-info-window"><a style="color: black;" href="#strip-modal" data-id="' + strip.id + '" data-toggle="modal">';
+				contentString += '<h4>' + strip.title + '</h4><p> by ' + strip.artist.name + '</p></a>';
+				contentString += '<a class="portfolio-link" href="#strip-modal" data-id="' + strip.id + '" data-toggle="modal">';
+				contentString += '<img style="width:150px;" src="' + DJANGO_MEDIA_URL + strip.image_small + '"></img></a></div>';
+				contentString += '<span>@' + strip.address + '</span>';
+
+				return contentString;
+			},
+
+			init: function(modalCallback) {
+				var that = this;
+
+		        function initialize() {
+		            var mapOptions = {
+		            	center: new google.maps.LatLng(that.brusselsLat, that.brusselsLng),
+		            	zoom: 13,
+		            	scrollwheel: false
+		        	};
+			        that.map = new google.maps.Map(document.getElementById("map-canvas"),
+			            mapOptions);
+					
+			        $.ajax({
+			        	url: 'api/strips/',
+			        	dataType: 'json'
+			        })
+			        .done(function(strips) {
+
+			        	strips.forEach(function(strip) {
+
+							var infowindow = new google.maps.InfoWindow({
+							    content: that._drawInfoBox(strip)
+							});
+
+					        var myLatlng = new google.maps.LatLng(strip.lat, strip.lng);
+
+							// To add the marker to the map, use the 'map' property
+							var marker = new google.maps.Marker({
+							    position: myLatlng,
+							    map: that.map,
+							    title: strip.title
+							    // visible: false
+							});
+							google.maps.event.addListener(marker, 'click', function() {
+							    infowindow.open(that.map, marker);
+							});
+							google.maps.event.addListener(infowindow, 'domready', function() {
+						        $(".strip-info-window").find('a').on('click', function() {
+						        	var id = $(this).attr('data-id');
+						        	modalCallback.call(this, id);
+						        });
+							});
+							that.markers[strip.id] = marker;
+							that.infowindows[strip.id] = infowindow;
+
+			        	});
+			        });
+		        }
+
+		        google.maps.event.addDomListener(window, 'load', initialize);
+
+			}
+		};
+
+	})();
+
+
+	//-------------------------------------------------------
 	self.showAllStrips = function() {
 
 		for(var key in self.stripList) {
@@ -166,7 +285,7 @@ var Murals = (function(self) {
 
 	function handleStripClick(id) {
 		$.ajax({
-			url: 'api/strips/' + id + '/',
+			url: 'api/strips/' + id,
 			dataType: 'json',
 			success: function(stripData) {
 				self.modal.draw(stripData);
@@ -186,9 +305,40 @@ var Murals = (function(self) {
 			self.stripList[strip.id] = strip;
 		});
 
-
 		self.search = new self.Search($(".search-strip"));
 		self.search.onSubmit(handleSearch);
+
+		self.map = new self.Map();
+		self.map.init(handleStripClick);
+
+		$("[name='map-switcher']").bootstrapSwitch({
+			size: 'small',
+			onColor: 'primary',
+			onSwitchChange: function(event, state) {
+				if (state) {
+					self.map.showAllMarkers();
+				}
+				else {
+					self.map.hideAllMarkers();
+				}
+			}
+		});
+
+		$(".portfolio-caption").find("a").on("click", function() {
+			var id = $(this).attr("data-id");
+			$('input[name="map-switcher"]').bootstrapSwitch('toggleState', false);
+			self.map.showMarker(parseInt(id));
+		});
+
+		$(".search-filter").find(".glyphicon").on('mouseover', function() {
+			$(this).removeClass('glyphicon-remove');
+			$(this).addClass('glyphicon-remove-sign');
+		});
+
+		$(".search-filter").find(".glyphicon").on('mouseout', function() {
+			$(this).removeClass('glyphicon-remove-sign');
+			$(this).addClass('glyphicon-remove');
+		});
 	};
 
 	return self;

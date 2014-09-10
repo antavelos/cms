@@ -81,11 +81,7 @@
                                 <i class="fa fa-plus fa-3x"></i>
                             </div>
                         </div>
-                        {% if strip.image_small %}
-                            <img class="img-responsive" src="{{ strip.image_small.url }}"></a>
-                        {% else %}
-                            <img class="img-responsive" src="{% static 'img/portfolio/golden.png' %}"></a>
-                        {% endif %}
+                        <img class="img-responsive" src="{{ strip.image_small.url }}"></a>
                         <div class="portfolio-caption">
                             <h4>{{ strip.title }}</h4>
                             <p>by {{ strip.artist.name }}</p>
