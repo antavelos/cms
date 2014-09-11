@@ -56,7 +56,7 @@ var Murals = (function(self) {
 	 */
 	self.Modal = function(el) {
 		this.element = el;
-	}
+	};
 
 	self.Modal.prototype = (function() {
 
@@ -82,9 +82,9 @@ var Murals = (function(self) {
 					content +=                 '<div class="modal-body">';
 					content +=                     '<!-- Project Details Go Here -->';
 					content +=                      '<h2>' + strip.title + '</h2>';
-					content +=                      '<p class="item-intro text-muted">by ' + strip.artist + '</p>';
+					content +=                      '<p class="item-intro text-muted">by ' + strip.artist.name + '</p>';
 					content +=                      '<img class="img-responsive img-centered" src="' + DJANGO_MEDIA_URL + strip.image_big + '" alt="">';
-					content +=                      '<p>' + strip.text + '</p>';
+					content +=                      (strip.text) ? '<p>' + strip.text + '</p>' : '<p>There is not any info for this strip yet!</p>';
 					content +=                      '<button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>';
 					content +=                      '</div>';
 					content +=                 '</div>';
@@ -147,7 +147,7 @@ var Murals = (function(self) {
 		this.infowindows = {};
 		this.brusselsLat = 50.86674;
 		this.brusselsLng = 4.35171;
-	}
+	};
 
 	self.Map.prototype = (function() {
 
@@ -281,7 +281,7 @@ var Murals = (function(self) {
 				self.stripList[key].hide();
 			}
 		}
-	};
+	}
 
 	function handleStripClick(id) {
 		$.ajax({
