@@ -105,8 +105,11 @@ var Murals = (function(self) {
 	 */
 	self.Search = function(el) {
 		this.element = el;
-		this.input = el.find("input");
-		this.button = el.find("a");
+		this.originalInput = this.element.find("input:text");		
+		this.originalInput.tagsinput({
+			maxTags: 1
+		});
+		this.innerInput = this.element.find(".bootstrap-tagsinput").find("input:text");
 	};
 
 	self.Search.prototype = (function() {
@@ -126,14 +129,18 @@ var Murals = (function(self) {
 			constructor: self.Search,
 
 			getText: function() {
-				return this.input.val();
+				return this.originalInput.val();
 			},
 
 			onSubmit: function(callback) {
 				var that = this;
-
-				this.button.on('click', function(e) {
-					getData.call(that, callback);
+				this.innerInput.on('keyup', function(e) {
+					if (e.keyCode === 13) {
+						getData.call(that, callback);
+					}
+				});
+				this.originalInput.on('itemRemoved', function(event) {
+				    getData.call(that, callback);
 				});
 			}
 		};
@@ -163,9 +170,16 @@ var Murals = (function(self) {
 				infowindow.open(this.map, marker);
 			},
 
-			showAllMarkers: function() {
-				for(var key in this.markers) {
-					this.markers[key].setVisible(true);	
+			showMarkers: function(list) {
+				if (list === undefined || list === []) {
+					for(var i in this.markers) {
+						this.markers[i].setVisible(true);	
+					}
+				} else {
+					for(var j in this.markers) {
+						var value = (list.indexOf(parseInt(j)) > -1) ? true : false;
+						this.markers[j].setVisible(value);	
+					}
 				}
 				this.closeAllInfoWindows();
 				this.setCoords();
@@ -274,13 +288,9 @@ var Murals = (function(self) {
 		data.forEach(function(strip){
 			idList.push(strip.id);
 		});
-
-		self.showAllStrips();
-		for(var key in self.stripList) {
-			if (idList.indexOf(parseInt(key)) === -1) {
-				self.stripList[key].hide();
-			}
-		}
+		var value = (idList.length === Object.keys(self.stripList).length) ? true : false;
+		$('input[name="map-switcher"]').bootstrapSwitch('toggleState', value);
+		self.map.showMarkers(idList);
 	}
 
 	function handleStripClick(id) {
@@ -305,18 +315,21 @@ var Murals = (function(self) {
 			self.stripList[strip.id] = strip;
 		});
 
-		self.search = new self.Search($(".search-strip"));
-		self.search.onSubmit(handleSearch);
 
 		self.map = new self.Map();
 		self.map.init(handleStripClick);
 
+		self.search = new self.Search($(".map-switcher"));
+		self.search.onSubmit(handleSearch);
+
 		$("[name='map-switcher']").bootstrapSwitch({
-			size: 'small',
+			size: 'normal',
 			onColor: 'primary',
+			onText: '<span class="glyphicon glyphicon-map-marker"></span>',
+			offText: '<span class="glyphicon glyphicon-map-marker"></span>',
 			onSwitchChange: function(event, state) {
 				if (state) {
-					self.map.showAllMarkers();
+					self.map.showMarkers();
 				}
 				else {
 					self.map.hideAllMarkers();
@@ -339,7 +352,9 @@ var Murals = (function(self) {
 			$(this).removeClass('glyphicon-remove-sign');
 			$(this).addClass('glyphicon-remove');
 		});
+
 	};
+
 
 	return self;
 }(Murals || {}));

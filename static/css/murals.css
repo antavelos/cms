@@ -26,7 +26,15 @@
 
 .map-switcher {
 	padding-bottom: 5px;
+	width: 100%;
+}
+
+.map-switcher .bootstrap-switch {
 	float: right;
+}
+
+.map-switcher .bootstrap-tagsinput {
+	width: 60%;
 }
 
 .map-switcher span {
@@ -44,4 +52,8 @@
 	position: relative;
 	float: right;
 	cursor: pointer;
+}
+
+.navbar-default .navbar-collapse .navbar-default .navbar-form .navbar-form {
+ border-color: black; 
 }
