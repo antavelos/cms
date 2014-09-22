@@ -84,7 +84,7 @@ var Murals = (function(self) {
 					content +=                      '<h2>' + strip.title + '</h2>';
 					content +=                      '<p class="item-intro text-muted">by ' + strip.artist.name + '</p>';
 					content +=                      '<img class="img-responsive img-centered" src="' + DJANGO_MEDIA_URL + strip.image_big + '" alt="">';
-					content +=                      (strip.text) ? '<p>' + strip.text + '</p>' : '<p>There is not any info for this strip yet!</p>';
+					content +=                      (strip.text) ? '<p>' + strip.text + '<a href="http://visitbrussels.be/bitc/BE_en/content/9820/the-49-walls-of-the-comic-strip-walk-in-detail.do">[via]</a></p>' : '<p>There is not any info for this strip yet!</p>';
 					content +=                      '<button type="button" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>';
 					content +=                      '</div>';
 					content +=                 '</div>';
