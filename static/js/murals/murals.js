@@ -132,15 +132,25 @@ var Murals = (function(self) {
 				return this.originalInput.val();
 			},
 
+			clear: function() {
+				this.originalInput.tagsinput('removeAll');
+			},
+
 			onSubmit: function(callback) {
 				var that = this;
 				this.innerInput.on('keyup', function(e) {
 					if (e.keyCode === 13) {
 						getData.call(that, callback);
+						that.innerInput.blur();
+						var curState = $('input[name="map-switcher"]').bootstrapSwitch('state');
+						if (curState) {
+							$('input[name="map-switcher"]').bootstrapSwitch('toggleState', false);
+						}
 					}
 				});
 				this.originalInput.on('itemRemoved', function(event) {
 				    getData.call(that, callback);
+					$('input[name="map-switcher"]').bootstrapSwitch('toggleState', true);
 				});
 			}
 		};
@@ -221,6 +231,13 @@ var Murals = (function(self) {
 				var that = this;
 
 		        function initialize() {
+					var markerIcon = new google.maps.MarkerImage(
+				        DJANGO_STATIC_URL + 'img/marker-default.png',
+				        null, /* size is determined at runtime */
+				        null, /* origin is 0,0 */
+				        null, /* anchor is bottom center of the scaled image */
+				        new google.maps.Size(32, 32)
+				    );
 		            var mapOptions = {
 		            	center: new google.maps.LatLng(that.brusselsLat, that.brusselsLng),
 		            	zoom: 13,
@@ -288,8 +305,6 @@ var Murals = (function(self) {
 		data.forEach(function(strip){
 			idList.push(strip.id);
 		});
-		var value = (idList.length === Object.keys(self.stripList).length) ? true : false;
-		$('input[name="map-switcher"]').bootstrapSwitch('toggleState', value);
 		self.map.showMarkers(idList);
 	}
 
@@ -330,6 +345,7 @@ var Murals = (function(self) {
 			onSwitchChange: function(event, state) {
 				if (state) {
 					self.map.showMarkers();
+					self.search.clear();
 				}
 				else {
 					self.map.hideAllMarkers();
@@ -339,7 +355,11 @@ var Murals = (function(self) {
 
 		$(".portfolio-caption").find("a").on("click", function() {
 			var id = $(this).attr("data-id");
-			$('input[name="map-switcher"]').bootstrapSwitch('toggleState', false);
+			var curState = $('input[name="map-switcher"]').bootstrapSwitch('state');
+			if (curState) {
+				$('input[name="map-switcher"]').bootstrapSwitch('toggleState', false);
+			}
+			self.search.clear();
 			self.map.showMarker(parseInt(id));
 		});
 

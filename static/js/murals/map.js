@@ -17,7 +17,7 @@ var Map = (function(self){
 	};
 
 	self.showAllMarkers = function() {
-		for(key in self.markers) {
+		for(var key in self.markers) {
 			self.markers[key].setVisible(true);	
 		}
 		self.closeAllInfoWindows();
@@ -25,14 +25,14 @@ var Map = (function(self){
 	};
 
 	self.hideAllMarkers = function() {
-		for(key in self.markers) {
+		for(var key in self.markers) {
 			self.markers[key].setVisible(false);	
 		}
 		self.closeAllInfoWindows();
 	};
 
 	self.closeAllInfoWindows = function() {		
-		for(key in self.infowindows) {
+		for(var key in self.infowindows) {
 			self.infowindows[key].close();	
 		}
 	};
@@ -47,7 +47,6 @@ var Map = (function(self){
 	};
 
 	self.init = function() {
-
         function initialize() {
             var mapOptions = {
             	center: new google.maps.LatLng(self.brusselsLat, self.brusselsLng),
@@ -75,11 +74,14 @@ var Map = (function(self){
 					});
 			        var myLatlng = new google.maps.LatLng(strip.lat, strip.lng);
 
+
+
 					// To add the marker to the map, use the 'map' property
 					var marker = new google.maps.Marker({
 					    position: myLatlng,
 					    map: self.map,
-					    title: strip.title
+					    title: strip.title,
+					    icon: markerIcon
 					    // visible: false
 					});
 					google.maps.event.addListener(marker, 'click', function() {

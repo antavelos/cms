@@ -33,7 +33,7 @@
 	float: right;
 }
 
-.map-switcher .bootstrap-tagsinput {
+.map-switcher .bootstrap-tagsinput, .searching .bootstrap-tagsinput{
 	width: 60%;
 }
 
